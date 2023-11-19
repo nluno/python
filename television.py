@@ -1,5 +1,5 @@
 #Created by: Niko Luebbert
-from typing import Union #For the type hinting of the getter function I used for the tests
+
 class Television:
     MIN_VOLUME = 0
     MAX_VOLUME = 2
@@ -12,29 +12,6 @@ class Television:
         self.__volume = Television.MIN_VOLUME
         self.__channel = Television.MIN_CHANNEL
         #self.__print_volume: Int
-
-    #(https://www.blog.pythonlibrary.org/2021/09/11/python-3-10-simplifies-unions-in-type-annotations/)
-    #This getter can return either an integer or a boolean. The version of Python on my computer was 3.8.10 instead of 3.10, and therefore I used Union[] to hint two possible return types.
-    def for_testing_purposes_getter(self, vname) -> Union[int, bool]:
-        if vname == "status":
-            return self.__status
-        elif vname == "muted":
-            return self.__muted
-        elif vname == "volume":
-            return self.__volume
-        elif vname == "channel":
-            return self.__channel
-            
-
-    def __tv_is_off(self) -> Union[bool, None]:
-        '''
-        Returns True if the tv is off.
-        :return: True if self.__status == False
-        '''
-        if self.__status == False: #(status == false means tv is off.)
-            #print("returned because off")
-            return True
-        
 
     def power(self) -> None:
         '''
@@ -49,7 +26,7 @@ class Television:
 
         This function does nothing if the Television is off.
         '''
-        if self.__tv_is_off() == True: #stop function if tv is currently turned off
+        if self.__status == False: #stop function if tv is currently turned off
             return
         
         self.__muted = not self.__muted #change self.muted to it's current opposite.
@@ -61,7 +38,7 @@ class Television:
 
         This function does nothing if the Television is off.
         '''
-        if self.__tv_is_off() == True: #stop function if tv is currently turned off
+        if self.__status == False: #stop function if tv is currently turned off
             return
         
         
@@ -79,7 +56,7 @@ class Television:
 
         This function does nothing if the Television is off.
         '''
-        if self.__tv_is_off() == True: #stop function if tv is currently turned off
+        if self.__status == False: #stop function if tv is currently turned off
             #print("cant channel down because tv is off.")
             return
         
@@ -96,7 +73,7 @@ class Television:
 
         This function does nothing if the Television is off.
         '''
-        if self.__tv_is_off() == True: #stop function if tv is currently turned off
+        if self.__status == False: #stop function if tv is currently turned off
             return
         
         self.__muted = False #unmute if not already unmuted
@@ -111,7 +88,7 @@ class Television:
 
         This function does nothing if the Television is off.
         '''
-        if self.__tv_is_off() == True: #stop function if tv is currently turned off
+        if self.__status == False: #stop function if tv is currently turned off
             return
         
         self.__muted = False #unmute if not already unmuted
@@ -122,14 +99,14 @@ class Television:
         '''
         Returns a status report including whether the Television is on, the current channel, and the current volume.
         Note that the volume will register as 0 if the TV is muted.
-        :return: f'Power = [{self.__status}], Channel = [{self.__channel}], Volume = [{self.__print_volume}]'
+        :return: f'Power = {self.__status}, Channel = {self.__channel}, Volume = {self.__print_volume}'
         '''
         if self.__muted == True:
             self.__print_volume = 0
         else:
             self.__print_volume = self.__volume
 
-        return f'Power = [{self.__status}], Channel = [{self.__channel}], Volume = [{self.__print_volume}]'
+        return f'Power = {self.__status}, Channel = {self.__channel}, Volume = {self.__print_volume}'
         
 
     
